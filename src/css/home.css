@@ -22,28 +22,34 @@
     list-style-type: block; }
     .displayChart ul li {
       display: inline-block; }
+      .displayChart ul li .canvas1Heading {
+        margin-left: 60px;
+        margin-top: 5px;
+        color: #6c6a6c; }
+      .displayChart ul li .canvas2Heading {
+        margin-left: 90px;
+        margin-top: 5px;
+        color: #6c6a6c; }
 
-#submitOption {
-  margin-top: 10px; }
-  #submitOption .timesheetRecord {
-    list-style-type: none; }
-    #submitOption .timesheetRecord li {
-      display: inline-block;
-      margin-top: 265px;
-      color: #6c6a6c; }
-    #submitOption .timesheetRecord .contactButtons {
-      background-color: #54d651;
-      color: white;
-      border-radius: 6%;
-      border: none;
-      padding: 6px;
-      font-size: 12px; }
-    #submitOption .timesheetRecord #btn1 {
-      position: relative;
-      left: 510px; }
-    #submitOption .timesheetRecord #btn2 {
-      position: relative;
-      left: 520px; }
+#submitOption .timesheetRecord {
+  list-style-type: none; }
+  #submitOption .timesheetRecord li {
+    display: inline-block;
+    margin-top: 255px;
+    color: #6c6a6c; }
+  #submitOption .timesheetRecord .contactButtons {
+    background-color: #54d651;
+    color: white;
+    border-radius: 6%;
+    border: none;
+    padding: 6px;
+    font-size: 12px; }
+  #submitOption .timesheetRecord #btn1 {
+    position: relative;
+    left: 530px; }
+  #submitOption .timesheetRecord #btn2 {
+    position: relative;
+    left: 540px; }
 
 .displayTable {
   position: absolute;
@@ -51,7 +57,7 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
-  top: 345px;
+  top: 332px;
   margin-top: 10px; }
   .displayTable .tableHead {
     background-color: #f7f8f8;
