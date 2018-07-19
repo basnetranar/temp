@@ -2,12 +2,12 @@
   position: absolute;
   left: 100px;
   right: 100px;
-  top: 8px; }
+  top: 6px; }
   .form-group .form-control {
     width: 350px;
-    margin-bottom: 13px; }
+    margin-bottom: 12px; }
   .form-group label {
-    font-size: 16px; }
+    font-size: 14px; }
   .form-group button {
     margin-left: 270px;
     margin-top: 10px; }

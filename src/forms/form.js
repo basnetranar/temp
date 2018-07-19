@@ -4,7 +4,7 @@ angular.module('myApp.form', ['ngRoute'])
 
 .config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
 	$locationProvider.hashPrefix(''); //to remove ! sign in the URL
-  $routeProvider.when('/form', {
+    $routeProvider.when('/form', {
     templateUrl: 'forms/form.html',
     controller: 'formController'
   });

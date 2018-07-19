@@ -5,9 +5,47 @@
             <option value="Client">Client</option>
           </select>
           <!-- secondary select which is optional, only visible when client selected -->
-          <select class="optionalSelect" id="optionSelect" ng-model="changeSelect">
-            <option value="" selected>Search clients</option>
+          <select class="optionalSelect"  ng-options="option.name for option in timesheetLog" 
+              ng-model="selectedClient"
+              id="optionSelect"
+              ng-change="clientSelected()">
           </select>
+          <button class="collapsible bg-secondary" ng-click="showForm()">Add TimeSheet</button>
+            <div class="content" id="Content">
+              <form class="form-group" method="post" action="/formenter">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control">
+
+                    <label for="">Timesheet Start</label>
+                    <input type="date" id="startDate" class="form-control">
+
+                    <label for="">Timesheet End</label>
+                    <input type="date" id="endDate" class="form-control">
+
+                    <label for="">Host</label>
+                    <input type="text" id="host" class="form-control">
+
+                    <label for="">Submitted Hours</label>
+                    <input type="number" id="host" class="form-control">
+
+                    <section class="hoursNotSubmitted">
+                      <label for="">Hours Not Submitted</label>
+                      <input type="number" id="host" class="form-control">
+
+                      <label for="">Still on Time</label>
+                      <input type="number" id="host" class="form-control">
+
+                      <label for="">Overdue</label>
+                      <input type="number" id="host" class="form-control">
+
+                    </section>
+
+                    <label for="name">Agency</label>
+                    <input type="text" id="agency" class="form-control" class="form-control">
+
+                    <button class="btn btn-success btn-md" value="submit">Submit</button>
+                  </form>
+            </div>
         </section>
 
         <!-- Chart for the data -->
@@ -16,15 +54,11 @@
             <li>
               <div class="canvas1Heading">Submitted timesheets</div>
               <canvas id="canvas1" width = "450" height = "200" ng-model="doughnutCanvas1">
-                
-                
               </canvas>
             </li>
               <li>
                 <div class="canvas2Heading">Timesheets ready to invoice</div>
                 <canvas id="canvas2" width = "450" height = "200" ng-model="doughnutCanvas2">
-
-                  
                 </canvas>
               </li>
           </ul>
@@ -52,12 +86,13 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr ng-repeat="client in timesheetLog">
+
                   <td class="col-md-1"><input type="checkbox" name="allSelect" value="all"></td>
-                  <td class="col-md-3">Worker</td>
-                  <td class="col-md-3">TimeSheet</td>
-                  <td class="col-md-2">Host</td>
-                  <td class="col-md-2">Agency</td>
+                  <td class="col-md-3">{{client.name}}</td>
+                  <td class="col-md-3">{{client.timeSheetStart}} - {{client.timeSheetEnd}}</td>
+                  <td class="col-md-2">{{client.host}}</td>
+                  <td class="col-md-2">{{client.agency}}</td>
                 </tr>
             </tbody>
           </table>
