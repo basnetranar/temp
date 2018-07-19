@@ -1,0 +1,59 @@
+$darkGray: #6c6a6c;
+$light: #fcfdfd;
+
+.selectOption{
+	margin-top: 15px; margin-left: 15px; color: $darkGray;
+
+	#mainSelect{
+		margin-left: 5px; margin-right:10px;padding: 4px;
+	}
+	
+	.optionalSelect{
+	padding: 4px; visibility: hidden;
+	}
+}
+
+.displayChart{
+	position: absolute;
+	display: inline-block; overflow: scroll;
+	background-color: white;
+	left: 15px; right: 15px; top: 40px;
+	margin-top: 15px; max-height: 250px;
+}
+
+#submitOption{
+	margin-top: 10px;
+
+	.timesheetRecord{
+		list-style-type: none; 
+
+		li{
+			display: inline-block;
+			margin-top: 270px; color: $darkGray;
+		}
+
+		.contactButtons{
+			background-color: #54d651;color: white;
+			border-radius: 6%;border: none;
+			padding: 6px;font-size: 12px;
+		}
+
+		#btn1{
+			position: relative; left: 510px;
+		}
+		#btn2{
+			position: relative; left: 520px;
+		}
+	}
+
+}
+
+.displayTable{
+	position: absolute;background-color: white;
+	left: 15px; right: 15px; margin-top: 10px;
+	max-height: 250px; overflow: scroll;
+
+	.tableHead{
+		background-color: #f7f8f8; color: #696d6d;
+	}
+}

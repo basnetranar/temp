@@ -1,0 +1,54 @@
+<section class="selectOption">
+          <label for="mainSelect">Filter by</label>
+          <select id="mainSelect" ng-change="hideOptionalSelect()" ng-model="mainSelectOption">
+            <option value="allTimeSheet" selected>All timesheets</option>
+            <option value="Client">Client</option>
+          </select>
+          <!-- secondary select which is optional, only visible when client selected -->
+          <select class="optionalSelect" id="optionSelect" ng-model="changeSelect">
+            <option value="" selected>Search clients</option>
+          </select>
+        </section>
+
+        <!-- Chart for the data -->
+        <section class="displayChart">
+          <canvas id="canvas1" width = "300p" height = "200p" ng-model="doughnutCanvas1">
+            
+          </canvas>
+          <canvas id="canvas2" ng-model="doughnutCanvas2">
+            
+          </canvas>
+        </section>
+
+        <!-- Table info and contacts button -->
+        <div id="submitOption">
+          <ul class="timesheetRecord">
+            <li id="timesheetInfo"> All timesheet {{byClient}}not yet submitted</li>
+            <li><input type="button" id = "btn1" class="contactButtons" value="Send SMS"></li>
+            <li><input type="button" id="btn2" class="contactButtons" value="Send Email"></li>  
+          </ul>
+        </div>
+
+        <!-- Table for the client -->
+        <section class="displayTable">
+          <table class="table">
+            <thead class="tableHead">
+              <tr>
+                <th class="col-md-1"><input type="checkbox" name="allSelect" value="all"></th>
+                <th class="col-md-3">Worker</th>
+                <th class="col-md-3">TimeSheet</th>
+                <th class="col-md-2">Host</th>
+                <th class="col-md-2">Agency</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="col-md-1"><input type="checkbox" name="allSelect" value="all"></td>
+                  <td class="col-md-3">Worker</td>
+                  <td class="col-md-3">TimeSheet</td>
+                  <td class="col-md-2">Host</td>
+                  <td class="col-md-2">Agency</td>
+                </tr>
+            </tbody>
+          </table>
+        </section>

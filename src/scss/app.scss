@@ -1,0 +1,47 @@
+$blue: #1951fa;
+$lightPurple: #fdf2fd;
+
+body{
+	position: absolute;
+	left: 30px;right: 30px;bottom: 0px;top: 1px;
+}
+
+.combinedHeader{
+	list-style-type: none;
+	margin-bottom: 1px; margin-top: 10px;padding-bottom: 1px;
+	color:#908e8e;
+	font-size:15px;
+
+	 li{
+		display: inline-block;
+	}
+}
+
+.mainHeading{
+	margin-left: 15%; font-size: 18px;
+}
+.designerLogo{
+	float:right; margin-right:5%;
+}
+
+#dashboard{
+	position: absolute;
+	top: 40px;bottom: 0;left: 0;
+	background-color: $blue;
+	width: 17%;
+
+	nav a{
+		display: block;
+		text-decoration: none; 
+		margin-left: 20px; margin-top: 15px;
+		font-size: 18px;
+		color: white;
+		font-family: serif;
+	}
+}
+
+#mainBody{
+	position: absolute;
+	left:17%; top:40px; bottom: 0; right: 0;
+	background-color: $lightPurple;
+}
