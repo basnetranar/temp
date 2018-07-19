@@ -4,43 +4,16 @@ angular.module('myApp.home', ['ngRoute'])
 
 .config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
 	$locationProvider.hashPrefix('');
-    $routeProvider.when('/home', {
-    templateUrl: 'home/home.html',
-    controller: 'homeController'
-  });
+        $routeProvider.when('/home', {
+        templateUrl: 'home/home.html',
+        controller: 'homeController'
+         });
 }])
 
 .controller('homeController', ['$scope','$http','$interval','$timeout',function($scope,$http,$interval,$timeout) {
 	
     $scope.byClient = ""; //To change the heading based on selected option
-    var getContent = document.getElementById('Content');
-    // Display form when the button is clicked
-    $scope.showForm = function(){
-
-        if(getContent.style.display == 'none'){
-            getContent.style.display = 'block';
-            getContent.style.overflow = 'scroll';
-            console.log('show form');
-        }
-        else{
-            getContent.style.display = 'none';
-            console.log('show form');
-        }
-    }
-
-
-//Hide the client's name select option when client is not selected
-	$scope.hideOptionalSelect = function(){
-        $scope.byClient = "";
-		if($scope.mainSelectOption != 'Client'){
-		document.getElementById('optionSelect').style.visibility = 'hidden';
-        $scope.byClient = "";}
-        
-		else{
-			$scope.byClient = "by Client ";
-			document.getElementById('optionSelect').style.visibility = 'visible';
-		};
-	}
+    $scope.invalidForm = "";//message returned when user submits invalid form
 
     // JSON containing datas to be displayed in the graph
     $scope.timesheetLog =[
@@ -69,7 +42,9 @@ angular.module('myApp.home', ['ngRoute'])
                 stillOnTime: 15,
                 overDue: 5
             }
-        }, {
+        }, 
+
+        {
             name: "Captain Clark",
             timeSheetStart: "23/07/18",
             timeSheetEnd: "07/08/18",
@@ -81,7 +56,9 @@ angular.module('myApp.home', ['ngRoute'])
                 stillOnTime: 14,
                 overDue: 10
             }
-        }, {
+        }, 
+           
+         {
             name: "Wayne Rooney",
             timeSheetStart: "23/07/18",
             timeSheetEnd: "07/08/18",
@@ -94,7 +71,117 @@ angular.module('myApp.home', ['ngRoute'])
                 overDue: 22
             }
         }
-    ]
+    ];
+
+    var getContent = document.getElementById('Content');
+    var getDisplayChart = document.getElementById('doughnutChart');
+    var getSubmitOption = document.getElementById('submitOption');
+
+    // Display form when the button is clicked
+    $scope.showForm = function(){
+        console.log('function accessed');
+        if(getContent.style.display == 'none'){
+            console.log('function entered');
+            getContent.style.display = 'block';
+            getContent.style.overflow = 'scroll';
+            getDisplayChart.style.display = 'none';
+            getSubmitOption.style.display = 'none';
+        }
+        else{
+            console.log('display removed');
+            getContent.style.display = 'none';
+            getDisplayChart.style.display = 'block';
+            getSubmitOption.style.display = 'inline-block';
+        }
+    };
+
+
+//Hide the client's name select option when client is not selected
+	$scope.hideOptionalSelect = function(){
+        $scope.byClient = "";
+		if($scope.mainSelectOption != 'Client'){
+		document.getElementById('optionSelect').style.visibility = 'hidden';
+        $scope.byClient = "";
+        }
+        
+		else{
+			$scope.byClient = "by Client ";
+			document.getElementById('optionSelect').style.visibility = 'visible';
+		};
+	}
+
+    
+    // Process when the form is submitted
+
+    $scope.formSubmitted = function(){
+        console.log('form ready for submission');
+        // First check if all the fields are filled
+
+        if(!$scope.inputName || !$scope.startTime || !$scope.endTime ||
+            !$scope.host || !$scope.submittedHours  || !$scope.notSubmittedHours ||
+            !$scope.onTime  || !$scope.overDue  || !$scope.agency)
+            {
+                $scope.invalidForm = "Please fill all the fields before submitting";
+            }
+
+        //Check if the client is already in the table, just update or add new client 
+        else{
+            console.log('form accepted');
+            
+            // checking if the user is already in the system
+            let i = 0;
+            let userFound = false;
+            while(i<$scope.timesheetLog.length)
+            {
+                if($scope.inputName.toLowerCase() == $scope.timesheetLog[i].name.toLowerCase()){
+                    userFound = true;
+                    console.log('user found');
+                    break;
+                }
+                i++;
+            }
+            console.log(i);
+            if(userFound){
+                // i will be the index of array with user's old data, so update it
+                $scope.timesheetLog[i]= {
+                    name: $scope.inputName,
+                    timeSheetStart: $scope.startTime,
+                    timeSheetEnd: $scope.endTime,
+                    host: $scope.host,
+                    agency: $scope.agency,
+                    hoursSubmitted: $scope.submittedHours,
+                    hoursnotSubmitted: {
+                        total: $scope.notSubmittedHours,
+                        stillOnTime: $scope.onTime,
+                        overDue: $scope.overDue
+
+                    }
+                };
+            }
+
+            else{
+                 $scope.timesheetLog.push({
+                    name: $scope.inputName,
+                    timeSheetStart: $scope.startTime,
+                    timeSheetEnd: $scope.endTime,
+                    host: $scope.host,
+                    agency: $scope.agency,
+                    hoursSubmitted: $scope.submittedHours,
+                    hoursnotSubmitted: {
+                        total: $scope.notSubmittedHours,
+                        stillOnTime: $scope.onTime,
+                        overDue: $scope.overDue
+
+                    }
+                });
+            }
+
+            $scope.invalidForm = "";
+            $scope.showForm();
+        
+
+    }
+}
 
 
     //Sample Displayed Graph

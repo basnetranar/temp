@@ -1,31 +1,65 @@
 .selectOption {
-  margin-top: 15px;
+  margin-top: 8px;
   margin-left: 15px;
   color: #6c6a6c; }
   .selectOption #mainSelect {
     margin-left: 5px;
     margin-right: 10px;
-    padding: 4px; }
+    padding: 3px; }
   .selectOption .optionalSelect {
-    padding: 4px;
+    padding: 3px;
     visibility: hidden; }
   .selectOption button {
-    position: fixed;
+    position: absolute;
     right: 50px; }
-  .selectOption .content {
-    width: 300px;
-    height: 400px;
+  .selectOption #Content {
     display: none;
-    overflow: hidden; }
+    position: absolute;
+    background-color: #d4fafc;
+    top: 30px;
+    right: 180px;
+    width: 410px;
+    height: 300px;
+    overflow: scroll; }
+    .selectOption #Content #notValid {
+      margin-left: 10px;
+      color: red; }
+    .selectOption #Content .form-group {
+      position: absolute;
+      left: 40px;
+      top: 30px;
+      font-size: 14px; }
+      .selectOption #Content .form-group .form-control {
+        margin-bottom: 15px; }
+      .selectOption #Content .form-group .hoursNotSubmitted {
+        list-style-type: none; }
+        .selectOption #Content .form-group .hoursNotSubmitted .form-control {
+          display: inline-block;
+          width: 70px;
+          margin-right: 12px; }
+      .selectOption #Content .form-group #submitBtn1 {
+        position: absolute;
+        left: 20px;
+        border-radius: 5%;
+        padding: 4px; }
+      .selectOption #Content .form-group #cancelBtn1 {
+        position: absolute;
+        border-radius: 5%;
+        padding: 4px;
+        right: 20px; }
 
 .displayChart {
   position: absolute;
   display: inline-block;
+  max-height: 230px;
+  overflow: scroll;
   background-color: white;
   left: 15px;
   right: 15px;
-  top: 40px;
-  margin-top: 15px; }
+  top: 30px;
+  margin-top: 15px;
+  height: 100%;
+  width: 100%; }
   .displayChart ul {
     list-style-type: block; }
     .displayChart ul li {
@@ -43,7 +77,7 @@
   list-style-type: none; }
   #submitOption .timesheetRecord li {
     display: inline-block;
-    margin-top: 255px;
+    margin-top: 250px;
     color: #6c6a6c; }
   #submitOption .timesheetRecord .contactButtons {
     background-color: #54d651;
@@ -64,9 +98,12 @@
   background-color: white;
   left: 15px;
   right: 15px;
-  bottom: 15px;
-  top: 332px;
-  margin-top: 10px; }
+  bottom: 5px;
+  top: 320px;
+  margin-top: 5px;
+  max-height: 240px;
+  overflow: scroll;
+  height: 100%; }
   .displayTable .tableHead {
     background-color: #f7f8f8;
     color: #696d6d; }

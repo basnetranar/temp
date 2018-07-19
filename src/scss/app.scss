@@ -28,7 +28,7 @@ body{
 	position: absolute;
 	top: 40px;bottom: 0;left: 0;
 	background-color: $blue;
-	width: 17%;
+	width: 17%; height: 100%;
 
 	nav a{
 		display: block;
@@ -42,6 +42,6 @@ body{
 
 #mainBody{
 	position: absolute;
-	left:17%; top:40px; bottom: 0; right: 0;
+	left:17%; top:40px; bottom: 0; right: 0; height: 100%;
 	background-color: $lightPurple;
 }

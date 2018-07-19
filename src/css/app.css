@@ -29,7 +29,8 @@ body {
   bottom: 0;
   left: 0;
   background-color: #1951fa;
-  width: 17%; }
+  width: 17%;
+  height: 100%; }
   #dashboard nav a {
     display: block;
     text-decoration: none;
@@ -45,4 +46,5 @@ body {
   top: 40px;
   bottom: 0;
   right: 0;
+  height: 100%;
   background-color: #fdf2fd; }

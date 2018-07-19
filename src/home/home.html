@@ -11,58 +11,63 @@
               ng-change="clientSelected()">
           </select>
           <button class="collapsible bg-secondary" ng-click="showForm()">Add TimeSheet</button>
+
             <div class="content" id="Content">
-              <form class="form-group" method="post" action="/formenter">
+              <div id="notValid">{{invalidForm}}</div>
+              <form class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" class="form-control">
+                    <input type="text" id="name" class="form-control" ng-model="inputName">
 
                     <label for="">Timesheet Start</label>
-                    <input type="date" id="startDate" class="form-control">
+                    <input type="date" id="startDate" class="form-control" ng-model="startTime">
 
-                    <label for="">Timesheet End</label>
-                    <input type="date" id="endDate" class="form-control">
+                    <label for="endDate">Timesheet End</label>
+                    <input type="date" id="endDate" class="form-control" ng-model="endTime">
 
-                    <label for="">Host</label>
-                    <input type="text" id="host" class="form-control">
+                    <label for="host">Host</label>
+                    <input type="text" id="host" class="form-control" ng-model="host">
 
-                    <label for="">Submitted Hours</label>
-                    <input type="number" id="host" class="form-control">
+                    <label for="submittedHours">Submitted Hours</label>
+                    <input type="number" id="submittedHours" class="form-control" ng-model="submittedHours">
+                    
+                    <label for="hoursnotsubmitted">Hours Not Submitted</label>
+                    <input type="number" id="hoursnotsubmitted" class="form-control" ng-model="notSubmittedHours">
 
                     <section class="hoursNotSubmitted">
-                      <label for="">Hours Not Submitted</label>
-                      <input type="number" id="host" class="form-control">
 
-                      <label for="">Still on Time</label>
-                      <input type="number" id="host" class="form-control">
+                      <label for="ontime">Still on Time</label>
+                      <input type="number" id="ontime" class="form-control" ng-model="onTime">
 
-                      <label for="">Overdue</label>
-                      <input type="number" id="host" class="form-control">
+                      <label for="overdue">Overdue</label>
+                      <input type="number" id="overdue" class="form-control" ng-model="overDue">
 
                     </section>
 
                     <label for="name">Agency</label>
-                    <input type="text" id="agency" class="form-control" class="form-control">
+                    <input type="text" id="agency" class="form-control" class="form-control" ng-model = "agency">
 
-                    <button class="btn btn-success btn-md" value="submit">Submit</button>
+                    <button class="btn btn-success " ng-click="formSubmitted()" id="submitBtn1">Submit</button>
+                     <button class="btn btn-success  " ng-click="showForm()" id="cancelBtn1">Cancel</button>
                   </form>
+              }
             </div>
         </section>
 
         <!-- Chart for the data -->
-        <section class="displayChart">
+        <div class="displayChart" id="doughnutChart">
           <ul>
             <li>
               <div class="canvas1Heading">Submitted timesheets</div>
-              <canvas id="canvas1" width = "450" height = "200" ng-model="doughnutCanvas1">
+              <canvas id="canvas1" width = "450" height = "180" ng-model="doughnutCanvas1">
               </canvas>
             </li>
               <li>
                 <div class="canvas2Heading">Timesheets ready to invoice</div>
-                <canvas id="canvas2" width = "450" height = "200" ng-model="doughnutCanvas2">
+                <canvas id="canvas2" width = "450" height = "180" ng-model="doughnutCanvas2">
                 </canvas>
               </li>
           </ul>
-        </section>
+        </div>
 
         <!-- Table info and contacts button -->
         <div id="submitOption">
