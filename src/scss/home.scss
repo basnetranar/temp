@@ -72,7 +72,7 @@ $light: #fcfdfd;
 .displayChart{
 	position: absolute; display: inline-block; max-height: 230px; overflow:scroll;
 	background-color: white;
-	left: 15px; right: 15px; top: 30px; margin-top: 15px; height: 100%; width: 100%;
+	left: 15px; right: 15px; top: 30px; margin-top: 15px; height: 100%; 
 
 	ul{
 
@@ -80,7 +80,6 @@ $light: #fcfdfd;
 
 		li{
 			display:inline-block;
-
 			.canvas1Heading{
 				margin-left:60px; margin-top:5px; color:$darkGray;
 			}
@@ -88,6 +87,7 @@ $light: #fcfdfd;
 			.canvas2Heading{
 				margin-left:90px; margin-top:5px; color:$darkGray;
 			}
+
 		}
 	}
 }
@@ -125,5 +125,11 @@ $light: #fcfdfd;
 
 	.tableHead{
 		background-color: #f7f8f8; color: #696d6d;
+	}
+	#deleteClient{
+		color: red; cursor: pointer;
+	}
+	#editClient{
+		color: blue; cursor: pointer;
 	}
 }

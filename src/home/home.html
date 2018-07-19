@@ -58,12 +58,12 @@
           <ul>
             <li>
               <div class="canvas1Heading">Submitted timesheets</div>
-              <canvas id="canvas1" width = "450" height = "180" ng-model="doughnutCanvas1">
+              <canvas id="canvas1" width = "370" height = "180" ng-model="doughnutCanvas1">
               </canvas>
             </li>
               <li>
                 <div class="canvas2Heading">Timesheets ready to invoice</div>
-                <canvas id="canvas2" width = "450" height = "180" ng-model="doughnutCanvas2">
+                <canvas id="canvas2"  width = "400" height = "180" ng-model="doughnutCanvas2">
                 </canvas>
               </li>
           </ul>
@@ -88,6 +88,7 @@
                 <th class="col-md-3">TimeSheet</th>
                 <th class="col-md-2">Host</th>
                 <th class="col-md-2">Agency</th>
+                <th class="col-md-1"></th>
               </tr>
             </thead>
             <tbody>
@@ -95,9 +96,10 @@
 
                   <td class="col-md-1"><input type="checkbox" name="allSelect" value="all"></td>
                   <td class="col-md-3">{{client.name}}</td>
-                  <td class="col-md-3">{{client.timeSheetStart}} - {{client.timeSheetEnd}}</td>
+                  <td class="col-md-3">{{client.timeSheetStart }} - {{client.timeSheetEnd}}</td>
                   <td class="col-md-2">{{client.host}}</td>
                   <td class="col-md-2">{{client.agency}}</td>
+                  <td><span id="deleteClient" ng-click="removeClient($index)">X</span>&nbsp;&nbsp; <span id="editClient" ng-click = "editClient($index)">&#9998;</span></td>
                 </tr>
             </tbody>
           </table>

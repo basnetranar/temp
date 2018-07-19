@@ -58,8 +58,7 @@
   right: 15px;
   top: 30px;
   margin-top: 15px;
-  height: 100%;
-  width: 100%; }
+  height: 100%; }
   .displayChart ul {
     list-style-type: block; }
     .displayChart ul li {
@@ -107,3 +106,9 @@
   .displayTable .tableHead {
     background-color: #f7f8f8;
     color: #696d6d; }
+  .displayTable #deleteClient {
+    color: red;
+    cursor: pointer; }
+  .displayTable #editClient {
+    color: blue;
+    cursor: pointer; }

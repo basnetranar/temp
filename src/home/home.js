@@ -21,7 +21,7 @@ angular.module('myApp.home', ['ngRoute'])
             name: "Jason Smith",
             timeSheetStart: "23/07/18",
             timeSheetEnd: "07/08/18",
-            host: "Shart Tank",
+            host: "Shark Tank",
             agency: "Supernova",
             hoursSubmitted: 40,
             hoursnotSubmitted: {
@@ -62,7 +62,7 @@ angular.module('myApp.home', ['ngRoute'])
             name: "Wayne Rooney",
             timeSheetStart: "23/07/18",
             timeSheetEnd: "07/08/18",
-            host: "Shart Tank",
+            host: "Shark Tank",
             agency: "Supernova",
             hoursSubmitted: 30,
             hoursnotSubmitted: {
@@ -73,13 +73,26 @@ angular.module('myApp.home', ['ngRoute'])
         }
     ];
 
+    //Empty the input field after form is submitted
+    $scope.emptyInputField = function(){
+        $scope.inputName = "";
+        $scope.startTime = "";
+        $scope.endTime = "";
+        $scope.host = "";
+        $scope.agency = "";
+        $scope.submittedHours = "";
+        $scope.notSubmittedHours = "";
+        $scope.onTime = "";
+        $scope.overDue = "";
+    }
+
     var getContent = document.getElementById('Content');
     var getDisplayChart = document.getElementById('doughnutChart');
     var getSubmitOption = document.getElementById('submitOption');
 
-    // Display form when the button is clicked
+    // Display form when the add timesheet button is clicked
     $scope.showForm = function(){
-        console.log('function accessed');
+        $scope.invalidForm = "";
         if(getContent.style.display == 'none'){
             console.log('function entered');
             getContent.style.display = 'block';
@@ -94,6 +107,27 @@ angular.module('myApp.home', ['ngRoute'])
             getSubmitOption.style.display = 'inline-block';
         }
     };
+
+    //Execute remove client function
+    $scope.removeClient= function(i){
+        //remove elements in i index in the array
+        $scope.timesheetLog.splice(i,1);   
+    }
+
+    //Execute edit client function
+    $scope.editClient = function(i){
+        // assign the input values of respective client and open form
+        console.log($scope.timesheetLog[i].timeSheetEnd);
+
+        $scope.inputName = $scope.timesheetLog[i].name;
+        $scope.host = $scope.timesheetLog[i].host;
+        $scope.agency = $scope.timesheetLog[i].agency;
+        $scope.submittedHours = $scope.timesheetLog[i].hoursSubmitted;
+        $scope.notSubmittedHours = $scope.timesheetLog[i].hoursnotSubmitted.total;
+        $scope.onTime = $scope.timesheetLog[i].hoursnotSubmitted.stillOnTime;
+        $scope.overDue = $scope.timesheetLog[i].hoursnotSubmitted.overDue;
+        $scope.showForm();
+    }
 
 
 //Hide the client's name select option when client is not selected
@@ -121,26 +155,24 @@ angular.module('myApp.home', ['ngRoute'])
             !$scope.host || !$scope.submittedHours  || !$scope.notSubmittedHours ||
             !$scope.onTime  || !$scope.overDue  || !$scope.agency)
             {
+                console.log('empty fields');
                 $scope.invalidForm = "Please fill all the fields before submitting";
             }
 
         //Check if the client is already in the table, just update or add new client 
         else{
-            console.log('form accepted');
-            
-            // checking if the user is already in the system
+            // checking if the client is already in the system
             let i = 0;
             let userFound = false;
             while(i<$scope.timesheetLog.length)
             {
                 if($scope.inputName.toLowerCase() == $scope.timesheetLog[i].name.toLowerCase()){
                     userFound = true;
-                    console.log('user found');
                     break;
                 }
                 i++;
             }
-            console.log(i);
+
             if(userFound){
                 // i will be the index of array with user's old data, so update it
                 $scope.timesheetLog[i]= {
@@ -159,7 +191,8 @@ angular.module('myApp.home', ['ngRoute'])
                 };
             }
 
-            else{
+            // New Client
+            else{ 
                  $scope.timesheetLog.push({
                     name: $scope.inputName,
                     timeSheetStart: $scope.startTime,
@@ -177,9 +210,8 @@ angular.module('myApp.home', ['ngRoute'])
             }
 
             $scope.invalidForm = "";
-            $scope.showForm();
-        
-
+            $scope.showForm(); //hide the form and show screen with graphs
+            $scope.emptyInputField(); //empty all the assigned values in inputs
     }
 }
 
