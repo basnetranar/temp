@@ -2,14 +2,16 @@
           <label for="mainSelect">Filter by</label>
           <select id="mainSelect" ng-change="hideOptionalSelect()" ng-model="mainSelectOption">
             <option value="allTimeSheet" selected>All timesheets</option>
-            <option value="Client">Client</option>
+            <option value="Client" >Client</option>
           </select>
+
           <!-- secondary select which is optional, only visible when client selected -->
           <select class="optionalSelect"  ng-options="option.name for option in timesheetLog" 
               ng-model="selectedClient"
               id="optionSelect"
               ng-change="clientSelected()">
           </select>
+
           <button class="collapsible bg-secondary" ng-click="showForm()">Add TimeSheet</button>
 
             <div class="content" id="Content">
@@ -24,9 +26,6 @@
                     <label for="endDate">Timesheet End</label>
                     <input type="date" id="endDate" class="form-control" ng-model="endTime">
 
-                    <label for="host">Host</label>
-                    <input type="text" id="host" class="form-control" ng-model="host">
-
                     <label for="submittedHours">Submitted Hours</label>
                     <input type="number" id="submittedHours" class="form-control" ng-model="submittedHours">
                     
@@ -35,13 +34,16 @@
 
                     <section class="hoursNotSubmitted">
 
-                      <label for="ontime">Still on Time</label>
-                      <input type="number" id="ontime" class="form-control" ng-model="onTime">
+                        <label for="ontime">Still on Time</label>
+                        <input type="number" id="ontime" class="form-control" ng-model="onTime">
 
-                      <label for="overdue">Overdue</label>
-                      <input type="number" id="overdue" class="form-control" ng-model="overDue">
+                        <label for="overdue">Overdue</label>
+                        <input type="number" id="overdue" class="form-control" ng-model="overDue">
 
                     </section>
+
+                    <label for="host">Host</label>
+                    <input type="text" id="host" class="form-control" ng-model="host">
 
                     <label for="name">Agency</label>
                     <input type="text" id="agency" class="form-control" class="form-control" ng-model = "agency">
@@ -57,12 +59,12 @@
         <div class="displayChart" id="doughnutChart">
           <ul>
             <li>
-              <div class="canvas1Heading">Submitted timesheets</div>
+              
               <canvas id="canvas1" width = "370" height = "180" ng-model="doughnutCanvas1">
               </canvas>
             </li>
               <li>
-                <div class="canvas2Heading">Timesheets ready to invoice</div>
+                
                 <canvas id="canvas2"  width = "400" height = "180" ng-model="doughnutCanvas2">
                 </canvas>
               </li>
@@ -88,18 +90,18 @@
                 <th class="col-md-3">TimeSheet</th>
                 <th class="col-md-2">Host</th>
                 <th class="col-md-2">Agency</th>
-                <th class="col-md-1"></th>
+                <th class="col-md-1" ><span>&#x1F50E;</span><input type="text" id = "search" ng-model = "searchField"></th>
               </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="client in timesheetLog">
+                <tr ng-repeat="client in timesheetLog | filter:searchField">
 
                   <td class="col-md-1"><input type="checkbox" name="allSelect" value="all"></td>
                   <td class="col-md-3">{{client.name}}</td>
                   <td class="col-md-3">{{client.timeSheetStart }} - {{client.timeSheetEnd}}</td>
                   <td class="col-md-2">{{client.host}}</td>
                   <td class="col-md-2">{{client.agency}}</td>
-                  <td><span id="deleteClient" ng-click="removeClient($index)">X</span>&nbsp;&nbsp; <span id="editClient" ng-click = "editClient($index)">&#9998;</span></td>
+                  <td> <span id="editClient" ng-click = "editClient($index)">&#9998;</span>&nbsp;&nbsp;<span id="deleteClient" ng-click="removeClient($index)">X</span></td>
                 </tr>
             </tbody>
           </table>

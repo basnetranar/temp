@@ -14,7 +14,8 @@ angular.module('myApp.home', ['ngRoute'])
 	
     $scope.byClient = ""; //To change the heading based on selected option
     $scope.invalidForm = "";//message returned when user submits invalid form
-
+    $scope.displayLog = []; //stores the values displayed in the canvas
+    
     // JSON containing datas to be displayed in the graph
     $scope.timesheetLog =[
         {
@@ -73,6 +74,119 @@ angular.module('myApp.home', ['ngRoute'])
         }
     ];
 
+     $scope.drawCanvas = function(){
+        Chart.pluginService.register({
+        beforeDraw: function (chart) {
+        var width = chart.chart.width,
+            height = chart.chart.height,
+            ctx = chart.chart.ctx;
+        ctx.restore();
+        var fontSize = (height / 114).toFixed(2);
+        ctx.font = fontSize + "em sans-serif";
+        ctx.textBaseline = "middle";
+        var text = chart.config.options.elements.center.text,
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 1.5;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+            }
+        });
+
+        //Destroy the existing instances of any previous charts 
+        if(myChart1!=null){myChart1.destroy(); console.log('chart1');}
+        if(myChart2!=null){myChart2.destroy(); console.log('chart2');}
+
+        var myChart1 = new Chart(canvas1, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
+                        backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
+                        borderWidth: 0,
+                        labels: ["Submitted", "Not yet submitted"]
+                    },
+
+                    {
+                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.stillOnTime,$scope.displayLog[0].hoursnotSubmitted.overDue],
+                        backgroundColor: ["#41bd3d", "#145bf5", "#f71302"],
+                        borderWidth: 0,
+                        labels: [ "Submitted","Not Yet Submitted","Still on time", "OverDue"]
+                    }],labels: ["Submitted", "Not yet submitted", "Still on time", "OverDue"]
+
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: true,
+                    elements: {
+                        center: {
+                            text: (parseInt(($scope.displayLog[0].hoursSubmitted * 100)/ 
+                                    ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
+                        }
+
+                    },
+                    layout: {
+                        padding: {
+                            left: 0, right: 0, bottom: 0, top: 0
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                        fontSize: 10,
+                        boxWidth: 10
+                        }
+                    },
+                    
+                    title: {
+                        display: true,
+                        text: 'Submitted timesheets',
+                        fontSize: 14,
+                        fontColor: '#6c6a6c'
+                    }
+                 }
+            });
+            var myChart2 = new Chart(canvas2, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
+                        backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
+                        borderWidth: 0
+                    }],
+                    labels: ["Submitted", "Not yet submitted"]
+                },
+                options: {
+                      responsive: false,
+                      maintainAspectRatio: true,
+                       elements: {
+                            center: {
+                                text: (parseInt(($scope.displayLog[0].hoursnotSubmitted.total * 100)/ 
+                                    ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
+                            }
+
+                        },
+                        layout: {
+                            padding: {
+                                left: 0, right: 0, bottom: 0, top: 0
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                fontSize: 10,
+                                boxWidth: 10
+                                }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Timesheets ready to invoice',
+                            fontSize: 14,
+                            fontColor: '#6c6a6c'
+                        }
+                }
+            });
+        }
+
     //Empty the input field after form is submitted
     $scope.emptyInputField = function(){
         $scope.inputName = "";
@@ -86,25 +200,59 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.overDue = "";
     }
 
+    var canvas1 = document.getElementById("canvas1").getContext('2d');
+    var canvas2 = document.getElementById("canvas2").getContext('2d');
     var getContent = document.getElementById('Content');
     var getDisplayChart = document.getElementById('doughnutChart');
     var getSubmitOption = document.getElementById('submitOption');
 
+// Get values of displayLog for Total Clients
+// Also call this function when allClients option is selected
+    $scope.totalClients = function(){
+        let totalSubmittedHours = 0, totalUnSubmittedHours = 0, totalOverDue = 0, totalOnTime =0;
+        for(let eachClient of $scope.timesheetLog){
+            totalSubmittedHours += eachClient.hoursSubmitted;
+            totalUnSubmittedHours += eachClient.hoursnotSubmitted.total;
+            totalOverDue += eachClient.hoursnotSubmitted.overDue;
+            totalOnTime += eachClient.hoursnotSubmitted.stillOnTime;
+
+        }
+        $scope.displayLog = [];
+        $scope.displayLog.push({
+                hoursSubmitted: totalSubmittedHours,
+                hoursnotSubmitted: {
+                total: totalUnSubmittedHours,
+                stillOnTime: totalOverDue,
+                overDue: totalOnTime
+                }
+        });
+        $scope.drawCanvas();
+        console.log($scope.displayLog);
+    }; $scope.totalClients();
+
     // Display form when the add timesheet button is clicked
     $scope.showForm = function(){
         $scope.invalidForm = "";
+        $scope.emptyInputField();
         if(getContent.style.display == 'none'){
-            console.log('function entered');
+            console.log('not first time');
             getContent.style.display = 'block';
             getContent.style.overflow = 'scroll';
             getDisplayChart.style.display = 'none';
             getSubmitOption.style.display = 'none';
         }
-        else{
+        else if(getContent.style.display == 'block'){
             console.log('display removed');
             getContent.style.display = 'none';
             getDisplayChart.style.display = 'block';
             getSubmitOption.style.display = 'inline-block';
+        }
+        else{
+            console.log('initiated');
+            getContent.style.display = 'block';
+            getContent.style.overflow = 'scroll';
+            getDisplayChart.style.display = 'none';
+            getSubmitOption.style.display = 'none';
         }
     };
 
@@ -112,13 +260,13 @@ angular.module('myApp.home', ['ngRoute'])
     $scope.removeClient= function(i){
         //remove elements in i index in the array
         $scope.timesheetLog.splice(i,1);   
-    }
+    };
 
     //Execute edit client function
     $scope.editClient = function(i){
         // assign the input values of respective client and open form
         console.log($scope.timesheetLog[i].timeSheetEnd);
-
+        $scope.showForm();
         $scope.inputName = $scope.timesheetLog[i].name;
         $scope.host = $scope.timesheetLog[i].host;
         $scope.agency = $scope.timesheetLog[i].agency;
@@ -126,7 +274,29 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.notSubmittedHours = $scope.timesheetLog[i].hoursnotSubmitted.total;
         $scope.onTime = $scope.timesheetLog[i].hoursnotSubmitted.stillOnTime;
         $scope.overDue = $scope.timesheetLog[i].hoursnotSubmitted.overDue;
-        $scope.showForm();
+        
+    };
+
+    $scope.clientSelected = function(){
+        $scope.displayLog = [];
+        console.log($scope.selectedClient.name);
+        let i = 0; 
+        
+        while(i<$scope.timesheetLog.length){
+            if($scope.timesheetLog[i].name == $scope.selectedClient.name){
+                console.log('user exists');
+                break;
+            }
+            i++;
+        };
+        // console.log($scope.timesheetLog.slice(i,i+1))[0];
+        let temp = ($scope.timesheetLog.slice(i,i+1));
+        console.log(temp);
+        $scope.displayLog = [...temp];
+        console.log('temp value after');
+        console.log($scope.displayLog[0].name);
+        $scope.drawCanvas();
+        // console.log($scope.displayLog[0].name);
     }
 
 
@@ -136,6 +306,7 @@ angular.module('myApp.home', ['ngRoute'])
 		if($scope.mainSelectOption != 'Client'){
 		document.getElementById('optionSelect').style.visibility = 'hidden';
         $scope.byClient = "";
+        $scope.totalClients();
         }
         
 		else{
@@ -155,9 +326,15 @@ angular.module('myApp.home', ['ngRoute'])
             !$scope.host || !$scope.submittedHours  || !$scope.notSubmittedHours ||
             !$scope.onTime  || !$scope.overDue  || !$scope.agency)
             {
-                console.log('empty fields');
                 $scope.invalidForm = "Please fill all the fields before submitting";
             }
+
+        // Check all the input hours are >= 0 and match properly
+        else if($scope.submittedHours<0 || $scope.notSubmittedHours<0 || $scope.onTime <0
+                || $scope.overDue <0 || ($scope.notSubmittedHours !=  $scope.onTime + $scope.overDue))
+                {
+                    $scope.invalidForm = "Please double check the input hours";
+                }
 
         //Check if the client is already in the table, just update or add new client 
         else{
@@ -213,67 +390,12 @@ angular.module('myApp.home', ['ngRoute'])
             $scope.showForm(); //hide the form and show screen with graphs
             $scope.emptyInputField(); //empty all the assigned values in inputs
     }
-}
+}   
 
+// change the canvas based on the clients data
 
-    //Sample Displayed Graph
-	
-	  $scope.fruits = {
-	  	// labels data representated
-                labels: ["Submitted","Not Yet Submitted"],
-                labels1: [ "Submitted","Not Yet Submitted","Still on time", "OverDue"],
-         // data values
-                data: [60, 40],
-                data1: [60, 20, 20],
-              // representational color
-                color: [ "#41bd3d" ,"#c1c1c3"],
-                color1: ["#41bd3d", "#145bf5", "#f71302"]
-            };
-            var canvas1 = document.getElementById("canvas1").getContext('2d');
-            var canvas2 = document.getElementById("canvas2").getContext('2d');
+        //plugin Reference from
+        //    https://stackoverflow.com/questions/43925652/multipe-doughnut-charts-on-one-page-with-text-in-center-using-chart-js
+ 
 
-            var myChart = new Chart(canvas1, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: $scope.fruits.data,
-                        backgroundColor: $scope.fruits.color,
-                        borderWidth: 0,
-                        labels: $scope.fruits.labels
-                    },
-
-                    {
-                        data: $scope.fruits.data1,
-                        backgroundColor: $scope.fruits.color1,
-                        borderWidth: 0,
-                    }],labels: $scope.fruits.labels
-
-                },
-                options: {
-                    responsive: false
-                }
-            });
-            var myChart = new Chart(canvas2, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: $scope.fruits.data,
-                        backgroundColor: $scope.fruits.color,
-                        borderWidth: 0
-                    }],
-                    labels: $scope.fruits.labels
-                },
-                options: {
-                    responsive: true
-                }
-            });
-
-
-
-        // Features included in the chart 1
-        // Not Yet Submitted , Submitted, 
-        //Second diagram included  Still on Time, Overdue, Submitted
-
-        //Featuers included in chart 2
-        // Ready to Submit , All submitted 
 }]);

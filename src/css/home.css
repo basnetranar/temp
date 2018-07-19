@@ -63,14 +63,6 @@
     list-style-type: block; }
     .displayChart ul li {
       display: inline-block; }
-      .displayChart ul li .canvas1Heading {
-        margin-left: 60px;
-        margin-top: 5px;
-        color: #6c6a6c; }
-      .displayChart ul li .canvas2Heading {
-        margin-left: 90px;
-        margin-top: 5px;
-        color: #6c6a6c; }
 
 #submitOption .timesheetRecord {
   list-style-type: none; }
@@ -106,6 +98,8 @@
   .displayTable .tableHead {
     background-color: #f7f8f8;
     color: #696d6d; }
+    .displayTable .tableHead #search {
+      width: 120px; }
   .displayTable #deleteClient {
     color: red;
     cursor: pointer; }
