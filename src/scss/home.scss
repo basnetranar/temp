@@ -15,10 +15,19 @@ $light: #fcfdfd;
 
 .displayChart{
 	position: absolute;
-	display: inline-block; overflow: scroll;
+	display: inline-block; 
 	background-color: white;
 	left: 15px; right: 15px; top: 40px;
-	margin-top: 15px; max-height: 250px;
+	margin-top: 15px;
+
+	ul{
+
+		list-style-type: block;
+
+		li{
+			display:inline-block;
+		}
+	}
 }
 
 #submitOption{
@@ -29,7 +38,7 @@ $light: #fcfdfd;
 
 		li{
 			display: inline-block;
-			margin-top: 270px; color: $darkGray;
+			margin-top: 265px; color: $darkGray;
 		}
 
 		.contactButtons{
@@ -50,8 +59,8 @@ $light: #fcfdfd;
 
 .displayTable{
 	position: absolute;background-color: white;
-	left: 15px; right: 15px; margin-top: 10px;
-	max-height: 250px; overflow: scroll;
+	left: 15px; right: 15px; bottom: 15px; top:345px; margin-top: 10px;
+	
 
 	.tableHead{
 		background-color: #f7f8f8; color: #696d6d;

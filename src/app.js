@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'myApp.liveTable',
+  'myApp.form',
   'myApp.home'
 ])
 .config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {

@@ -14,14 +14,17 @@ angular.module('myApp.home', ['ngRoute'])
 	
 //Hide the client's name select option when client is not selected
 	$scope.hideOptionalSelect = function(){
+        $scope.byClient = "";
 		if($scope.mainSelectOption != 'Client'){
-		document.getElementById('optionSelect').style.visibility = 'hidden';}
+		document.getElementById('optionSelect').style.visibility = 'hidden';
+        $scope.byClient = "";}
+        
 		else{
-			console.log('client selected');
+			$scope.byClient = "by Client";
 			document.getElementById('optionSelect').style.visibility = 'visible';
 		}
 	}
-	$scope.byClient = "by Client ";
+	
 	  $scope.fruits = {
 	  	// labels data representated
                 labels: ["Mango", "Orange", "Peach"],
