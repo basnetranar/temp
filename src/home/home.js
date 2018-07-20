@@ -74,94 +74,62 @@ angular.module('myApp.home', ['ngRoute'])
         }
     ];
 
-     $scope.drawCanvas = function(){
-        Chart.pluginService.register({
-        beforeDraw: function (chart) {
-        var width = chart.chart.width,
-            height = chart.chart.height,
-            ctx = chart.chart.ctx;
-        ctx.restore();
-        var fontSize = (height / 114).toFixed(2);
-        ctx.font = fontSize + "em sans-serif";
-        ctx.textBaseline = "middle";
-        var text = chart.config.options.elements.center.text,
-            textX = Math.round((width - ctx.measureText(text).width) / 2),
-            textY = height / 1.5;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-            }
-        });
+        $scope.drawCanvas = function(){
+            var canvas1 = document.getElementById("canvas1").getContext('2d');
+            var canvas2 = document.getElementById("canvas2").getContext('2d');
+        
+// plugin for Chart to display label in the center of the chart
+// Borrowed from StackOverflow
+ //    https://stackoverflow.com/questions/43925652/multipe-doughnut-charts-on-one-page-with-text-in-center-using-chart-js
+       
+            Chart.pluginService.register({
+            beforeDraw: function (chart) {
+            var width = chart.chart.width,
+                height = chart.chart.height,
+                ctx = chart.chart.ctx;
+            ctx.restore();
 
-        //Destroy the existing instances of any previous charts 
-        if(myChart1!=null){myChart1.destroy(); console.log('chart1');}
-        if(myChart2!=null){myChart2.destroy(); console.log('chart2');}
-
-        var myChart1 = new Chart(canvas1, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
-                        backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
-                        borderWidth: 0,
-                        labels: ["Submitted", "Not yet submitted"]
-                    },
-
-                    {
-                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.stillOnTime,$scope.displayLog[0].hoursnotSubmitted.overDue],
-                        backgroundColor: ["#41bd3d", "#145bf5", "#f71302"],
-                        borderWidth: 0,
-                        labels: [ "Submitted","Not Yet Submitted","Still on time", "OverDue"]
-                    }],labels: ["Submitted", "Not yet submitted", "Still on time", "OverDue"]
-
-                },
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: true,
-                    elements: {
-                        center: {
-                            text: (parseInt(($scope.displayLog[0].hoursSubmitted * 100)/ 
-                                    ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
-                        }
-
-                    },
-                    layout: {
-                        padding: {
-                            left: 0, right: 0, bottom: 0, top: 0
-                        }
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                        fontSize: 10,
-                        boxWidth: 10
-                        }
-                    },
-                    
-                    title: {
-                        display: true,
-                        text: 'Submitted timesheets',
-                        fontSize: 14,
-                        fontColor: '#6c6a6c'
-                    }
-                 }
+            // var fontSize = (height / 114).toFixed(2);
+            ctx.font = 1 + "em sans-serif";
+            ctx.textBaseline = "middle";
+            var text = chart.config.options.elements.center.text,
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 1.5;
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+                }
             });
-            var myChart2 = new Chart(canvas2, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
-                        backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
-                        borderWidth: 0
-                    }],
-                    labels: ["Submitted", "Not yet submitted"]
-                },
-                options: {
-                      responsive: false,
-                      maintainAspectRatio: true,
-                       elements: {
+
+            //Destroy the existing instances of any previous charts 
+            if($scope.myChart1!=null){$scope.myChart1.destroy(); console.log('chart1');}
+            if($scope.myChart2!=null){$scope.myChart2.destroy(); console.log('chart2');}
+
+            // First chart with two datasets for Submitted Timesheets
+             $scope.myChart1 = new Chart(canvas1, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
+                            backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
+                            borderWidth: 0,
+                            labels: ["Submitted", "Not yet submitted"]
+                        },
+
+                        {
+                            data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.stillOnTime,$scope.displayLog[0].hoursnotSubmitted.overDue],
+                            backgroundColor: ["#41bd3d", "#145bf5", "#f71302"],
+                            borderWidth: 0,
+                            labels: [ "Submitted","Not Yet Submitted","Still on time", "OverDue"]
+                        }],labels: ["Submitted", "Not yet submitted", "Still on time", "OverDue"]
+
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: true,
+                        elements: {
                             center: {
-                                text: (parseInt(($scope.displayLog[0].hoursnotSubmitted.total * 100)/ 
-                                    ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
+                                text: (parseInt(($scope.displayLog[0].hoursSubmitted * 100)/ 
+                                        ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
                             }
 
                         },
@@ -173,19 +141,60 @@ angular.module('myApp.home', ['ngRoute'])
                         legend: {
                             position: 'top',
                             labels: {
-                                fontSize: 10,
-                                boxWidth: 10
-                                }
+                            fontSize: 10,
+                            boxWidth: 10
+                            }
                         },
+                        
                         title: {
                             display: true,
-                            text: 'Timesheets ready to invoice',
+                            text: 'Submitted timesheets',
                             fontSize: 14,
                             fontColor: '#6c6a6c'
                         }
-                }
-            });
-        }
+                     }
+                });
+                 $scope.myChart2 = new Chart(canvas2, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
+                            backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
+                            borderWidth: 0
+                        }],
+                        labels: ["Submitted", "Not yet submitted"]
+                    },
+                    options: {
+                          responsive: false,
+                          maintainAspectRatio: true,
+                           elements: {
+                                center: {
+                                    text: (parseInt(($scope.displayLog[0].hoursnotSubmitted.total * 100)/ 
+                                        ($scope.displayLog[0].hoursSubmitted + $scope.displayLog[0].hoursnotSubmitted.total)) + '%')
+                                }
+
+                            },
+                            layout: {
+                                padding: {
+                                    left: 0, right: 0, bottom: 0, top: 0
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    fontSize: 10,
+                                    boxWidth: 10
+                                    }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Timesheets ready to invoice',
+                                fontSize: 14,
+                                fontColor: '#6c6a6c'
+                            }
+                    }
+                });
+            }
 
     //Empty the input field after form is submitted
     $scope.emptyInputField = function(){
@@ -200,8 +209,7 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.overDue = "";
     }
 
-    var canvas1 = document.getElementById("canvas1").getContext('2d');
-    var canvas2 = document.getElementById("canvas2").getContext('2d');
+   
     var getContent = document.getElementById('Content');
     var getDisplayChart = document.getElementById('doughnutChart');
     var getSubmitOption = document.getElementById('submitOption');
@@ -227,7 +235,6 @@ angular.module('myApp.home', ['ngRoute'])
                 }
         });
         $scope.drawCanvas();
-        console.log($scope.displayLog);
     }; $scope.totalClients();
 
     // Display form when the add timesheet button is clicked
@@ -235,20 +242,17 @@ angular.module('myApp.home', ['ngRoute'])
         $scope.invalidForm = "";
         $scope.emptyInputField();
         if(getContent.style.display == 'none'){
-            console.log('not first time');
             getContent.style.display = 'block';
             getContent.style.overflow = 'scroll';
             getDisplayChart.style.display = 'none';
             getSubmitOption.style.display = 'none';
         }
         else if(getContent.style.display == 'block'){
-            console.log('display removed');
             getContent.style.display = 'none';
             getDisplayChart.style.display = 'block';
             getSubmitOption.style.display = 'inline-block';
         }
         else{
-            console.log('initiated');
             getContent.style.display = 'block';
             getContent.style.overflow = 'scroll';
             getDisplayChart.style.display = 'none';
@@ -279,24 +283,18 @@ angular.module('myApp.home', ['ngRoute'])
 
     $scope.clientSelected = function(){
         $scope.displayLog = [];
-        console.log($scope.selectedClient.name);
         let i = 0; 
         
         while(i<$scope.timesheetLog.length){
             if($scope.timesheetLog[i].name == $scope.selectedClient.name){
-                console.log('user exists');
                 break;
             }
             i++;
         };
-        // console.log($scope.timesheetLog.slice(i,i+1))[0];
+       
         let temp = ($scope.timesheetLog.slice(i,i+1));
-        console.log(temp);
         $scope.displayLog = [...temp];
-        console.log('temp value after');
-        console.log($scope.displayLog[0].name);
         $scope.drawCanvas();
-        // console.log($scope.displayLog[0].name);
     }
 
 
@@ -320,6 +318,7 @@ angular.module('myApp.home', ['ngRoute'])
 
     $scope.formSubmitted = function(){
         console.log('form ready for submission');
+
         // First check if all the fields are filled
 
         if(!$scope.inputName || !$scope.startTime || !$scope.endTime ||
@@ -391,11 +390,5 @@ angular.module('myApp.home', ['ngRoute'])
             $scope.emptyInputField(); //empty all the assigned values in inputs
     }
 }   
-
-// change the canvas based on the clients data
-
-        //plugin Reference from
-        //    https://stackoverflow.com/questions/43925652/multipe-doughnut-charts-on-one-page-with-text-in-center-using-chart-js
- 
-
+       
 }]);

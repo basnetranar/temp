@@ -1,3 +1,4 @@
+<!-- Filter with All Timesheet and Clients as options -->
 <section class="selectOption">
           <label for="mainSelect">Filter by</label>
           <select id="mainSelect" ng-change="hideOptionalSelect()" ng-model="mainSelectOption">
@@ -14,6 +15,7 @@
 
           <button class="collapsible bg-secondary" ng-click="showForm()">Add TimeSheet</button>
 
+          <!-- Collapsible form to input data -->
             <div class="content" id="Content">
               <div id="notValid">{{invalidForm}}</div>
               <form class="form-group">
@@ -51,7 +53,7 @@
                     <button class="btn btn-success " ng-click="formSubmitted()" id="submitBtn1">Submit</button>
                      <button class="btn btn-success  " ng-click="showForm()" id="cancelBtn1">Cancel</button>
                   </form>
-              }
+              
             </div>
         </section>
 
@@ -59,12 +61,10 @@
         <div class="displayChart" id="doughnutChart">
           <ul>
             <li>
-              
               <canvas id="canvas1" width = "370" height = "180" ng-model="doughnutCanvas1">
               </canvas>
             </li>
               <li>
-                
                 <canvas id="canvas2"  width = "400" height = "180" ng-model="doughnutCanvas2">
                 </canvas>
               </li>
@@ -93,7 +93,8 @@
                 <th class="col-md-1" ><span>&#x1F50E;</span><input type="text" id = "search" ng-model = "searchField"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody> 
+              <!-- Search Field .. looks through the entire table -->
                 <tr ng-repeat="client in timesheetLog | filter:searchField">
 
                   <td class="col-md-1"><input type="checkbox" name="allSelect" value="all"></td>
