@@ -22,7 +22,9 @@
     height: 300px;
     overflow: scroll; }
     .selectOption #Content #notValid {
-      margin-left: 10px;
+      margin-left: 35px;
+      margin-top: 8px;
+      font-size: 14px;
       color: red; }
     .selectOption #Content .form-group {
       position: absolute;

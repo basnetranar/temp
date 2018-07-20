@@ -10,7 +10,7 @@ angular.module('myApp.home', ['ngRoute'])
          });
 }])
 
-.controller('homeController', ['$scope','$http','$interval','$timeout',function($scope,$http,$interval,$timeout) {
+.controller('homeController', ['$scope','$window',function($scope,$window) {
 	
     $scope.byClient = ""; //To change the heading based on selected option
     $scope.invalidForm = "";//message returned when user submits invalid form
@@ -112,6 +112,7 @@ angular.module('myApp.home', ['ngRoute'])
                             data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.total],
                             backgroundColor: [ "#41bd3d" ,"#c1c1c3"],
                             borderWidth: 0,
+                            label: 'Submitted',
                             labels: ["Submitted", "Not yet submitted"]
                         },
 
@@ -119,13 +120,16 @@ angular.module('myApp.home', ['ngRoute'])
                             data: [$scope.displayLog[0].hoursSubmitted,$scope.displayLog[0].hoursnotSubmitted.stillOnTime,$scope.displayLog[0].hoursnotSubmitted.overDue],
                             backgroundColor: ["#41bd3d", "#145bf5", "#f71302"],
                             borderWidth: 0,
+                            label: 'Invoice Set',
                             labels: [ "Submitted","Not Yet Submitted","Still on time", "OverDue"]
-                        }],labels: ["Submitted", "Not yet submitted", "Still on time", "OverDue"]
+                        }],
+                        labels: ["Submitted", "Not yet submitted", "Still on time", "OverDue"]
 
                     },
                     options: {
-                        responsive: false,
+                        responsive: true,
                         maintainAspectRatio: true,
+                        cutoutPercentage: 40,
                         elements: {
                             center: {
                                 text: (parseInt(($scope.displayLog[0].hoursSubmitted * 100)/ 
@@ -165,7 +169,8 @@ angular.module('myApp.home', ['ngRoute'])
                         labels: ["Submitted", "Not yet submitted"]
                     },
                     options: {
-                          responsive: false,
+                          responsive: true,
+                          cutoutPercentage: 45,
                           maintainAspectRatio: true,
                            elements: {
                                 center: {
@@ -195,6 +200,11 @@ angular.module('myApp.home', ['ngRoute'])
                     }
                 });
             }
+
+    //Email Client
+        $scope.mailClient = function(){
+        $window.open("mailto:client@gmail.com",'_self');
+    }
 
     //Empty the input field after form is submitted
     $scope.emptyInputField = function(){
